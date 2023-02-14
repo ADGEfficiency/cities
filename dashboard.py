@@ -4,13 +4,7 @@ import streamlit as st
 
 st.set_option("deprecation.showPyplotGlobalUse", False)
 
-data = {
-    "city": ["auckland", "berlin", "london"],
-    "population": [1.6, 3.6, 8.9],
-    "hemisphere": ["south", "north", "north"],
-}
-
-df = pd.DataFrame(data)
+data = pd.read_csv("./cities.csv")
 
 st.header("Cities Dataset")
 st.text("Take a look at the cities dataset with Streamlit:")
