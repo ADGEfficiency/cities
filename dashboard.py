@@ -1,29 +1,27 @@
-import matplotlib.pyplot as plt
 import pandas as pd
 import streamlit as st
 
-st.set_option("deprecation.showPyplotGlobalUse", False)
-
-data = pd.read_csv("./cities.csv")
+data = pd.DataFrame(
+    {
+        "city": ["auckland", "berlin", "london"],
+        "population": [1.6, 3.6, 8.9],
+        "hemisphere": ["south", "north", "north"],
+    }
+)
 
 st.header("Cities Dataset")
-st.text("Take a look at the cities dataset with Streamlit:")
-st.dataframe(df)
+st.text(f"shape: {data.shape}")
+st.dataframe(data)
 
-cities = df["city"].tolist()
+#  selectbox to view data for one city
+cities = data["city"].tolist()
 selected_city = st.selectbox("Select a city:", cities)
-st.write("You selected ", selected_city)
-st.write(
-    "Population of the selected city is:",
-    df.loc[df["city"] == selected_city]["population"].values,
-)
-st.write(
-    "Hemisphere of the selected city is:",
-    df.loc[df["city"] == selected_city]["hemisphere"].values,
-)
+city = data.loc[data["city"] == selected_city]
+assert city.shape[0] == 1
+st.write(city)
+st.write(f"selected: {selected_city}\n")
+st.write(f"population: {float(city['population'].iloc[0])}")
+st.write(f"hemisphere: {city['hemisphere'].values[0]}")
 
-st.write("Cities Population")
-st.bar_chart(df["population"])
-
-plt.bar(df["city"], df["population"])
-st.pyplot()
+#  bar chart of population
+st.bar_chart(data, y="population")
